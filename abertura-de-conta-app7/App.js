@@ -1,75 +1,42 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, Switch} from 'react-native';
 
 import {Picker} from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 
-class App extends Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      nome: '',
-      idade: '',
-      sexo: '',
-      sexos: [
+export default function App(){
+  const [nome, setNome] = useState('')
+  const [idade, setIdade] = useState('')
+  const [sexo, setSexo] = useState('')
+  const [sexos, setSexos] = useState([
         {id: 1, nome: 'Masculino'},
         {id: 2, nome: 'Feminino'},
-      ],
-      escolaridade: '',
-      escolaridades: [
+  ])
+  const [escolaridade, setEscolaridade] = useState('')
+  const [escolaridades, setEscolaridades] = useState([
         {id: 1, nome: 'Nada'},
         {id: 2, nome: 'Fundamental'},
         {id: 3, nome: 'Ensino medio'},
         {id: 4, nome: 'Graduação'},
         {id: 5, nome: 'Pós Graduação'}
-      ],
-      limite: 0,
-      brasileiro: false
-    };
-    
-    this.cadastrar = this.cadastrar.bind(this);
+  ])
+  const [limite, setLimite] = useState(0)
+  const [brasileiro, setBrasileiro] = useState(false)
+
+  const [resultado, setResultado] = useState()
+
+  function cadastrar(){
+      setResultado((
+          "Cadastrado com sucesso: "
+
+      ))
   }
 
-
-  cadastrar(){
-    if ( (this.state.numero1 === '') || (this.state.numero2 === '')){
-      alert('É obrigatório digitar os dois numeros')
-      return;
-    }
-
-    res = (this.state.numero1 / (this.state.numero2 * this.state.numero2)).toFixed(2)
-    
-    if(res < 18.5){
-      this.setState({resultado: 'Abaixo do peso, seu Frango ' + res});
-    }
-    else if(res >= 18.5 && res <= 24.9 ){
-      this.setState({resultado: 'Peso normal ' + res});
-    }
-    else if(res >= 25 && res <= 29.9 ){
-      this.setState({resultado: 'Sobrepeso ' + res});
-    }
-    else if(res >= 30 && res <= 34.9 ){
-      this.setState({resultado: 'Obesidade Grau I ' + res});
-    }
-    else if(res >= 35 && res <= 39.9 ){
-      this.setState({resultado: 'Obesidade Grau II ' + res});
-    }
-    else if(res >= 40){
-      this.setState({resultado: 'Obesidade Grau III, mano vai fazer uma dieta ' + res});
-    }
-    else{
-      this.setState({resultado: 'Alguma coisa ta muito errada ' + res});
-    }
-  }
-
-
-  render(){
-
-    let sexoItem = this.state.sexos.map( (valor, chave) => {
+    let sexoItem = sexos.map( (valor, chave) => {
       return <Picker.Item key={chave} value={valor.nome} label={valor.nome} />
     })
 
-    let escolaridadeItem = this.state.escolaridades.map( (valor, chave) => {
+    let escolaridadeItem = escolaridades.map( (valor, chave) => {
       return <Picker.Item key={chave} value={valor.nome} label={valor.nome} />
     })
 
@@ -82,63 +49,65 @@ class App extends Component{
       <TextInput
       style={styles.input}
       placeholder="Digite o nome"
-      onChangeText={ (valor) => this.setState({numero1: valor}) }
+      onChangeText={ (valor) => setNome((valor)) }
       />
 
       <TextInput
       style={styles.input}
       placeholder="Digite a idade"
-      onChangeText={ (valor) => this.setState({numero1: valor}) }
+      onChangeText={ (valor) => setIdade((valor)) }
       />
 
       <Picker
-        selectedValue={this.state.sexo}
-        onValueChange={ (itemValue, itemIndex) => this.setState({sexo: itemValue}) }
+        selectedValue={sexo}
+        onValueChange={ (itemValue, itemIndex) => setSexo((itemValue)) }
       >
         {sexoItem}
       </Picker>
 
       <Picker
-        selectedValue={this.state.escolaridade}
-        onValueChange={ (itemValue, itemIndex) => this.setState({escolaridade: itemValue}) }
+        selectedValue={escolaridade}
+        onValueChange={ (itemValue, itemIndex) => setEscolaridade((itemValue)) }
       >
         {escolaridadeItem}
       </Picker>
 
+      Defina seu limite:
+
       <Slider
         minimumValue={0}
         maximumValue={100}
-        onValueChange={ (valorSelecionado) => this.setState({limite: valorSelecionado})}
-        value={this.state.limite}
+        onValueChange={ (valorSelecionado) => setLimite((valorSelecionado))}
+        value={limite}
         step={15}
         minimumTrackTintColor='blue'
         maximumTrackTintColor='green'
         thumbTintColor='orange'
       />
 
+      <Text style={styles.texto}> {limite} </Text>
+
+      Você é brasileiro?
+
       <Switch 
-      value={this.state.brasileiro}
-      onValueChange={ (valorSwitch) => this.setState({brasileiro: valorSwitch})}
+        value={brasileiro}
+        onValueChange={ (valorSwitch) =>  setBrasileiro((valorSwitch))}
       />
 
-
       <Text style={{textAlign: 'center', fontSize:30}}>
-        {(this.state.brasileiro) ? "Ativo" : "Inativo"}
+        {(brasileiro) ? "Brasileiro" : "Gringo"}
       </Text>
 
+      <Button title="Cadastrar" onPress={cadastrar} />
 
       
 
 
 
-
-      <Button title="Verificar" onPress={this.cadastrar} />
-
-
-      <Text style={styles.texto}> {this.state.limite} </Text>
+      <Text style={styles.texto}> {resultado} </Text>
       </View>
     );
-  }
+  
 }
 
 
@@ -179,5 +148,3 @@ const styles = StyleSheet.create({
 
 })
 
-
-export default App;
