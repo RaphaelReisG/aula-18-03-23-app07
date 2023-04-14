@@ -96,7 +96,7 @@ export default function App(){
       >
         {sexoItem}
       </Picker>
-      <br/>
+      
 
       <Text style={styles.texto2}> Qual sua escolaridade? </Text>
 
@@ -107,7 +107,7 @@ export default function App(){
         {escolaridadeItem}
       </Picker>
 
-      <br/>
+      
 
       <Text style={styles.texto2}> Defina seu limite: </Text>
 
@@ -124,7 +124,7 @@ export default function App(){
 
       <Text style={styles.texto}> {limite} </Text>
 
-      <br/>
+      
 
       <Text style={styles.texto2}> Você é Brasileiro? </Text>
 
@@ -133,15 +133,15 @@ export default function App(){
         onValueChange={ (valorSwitch) =>  setBrasileiro((valorSwitch))}
       />
 
-      <br/>
+      
 
       <Button title="Cadastrar" onPress={cadastrar} />
 
-      <br/>
+      
 
       <Text style={styles.texto}> {resultado} </Text>
 
-      <br/>
+      
       <Text style={styles.texto2}> {resultado_nome} </Text>
       <Text style={styles.texto2}> {resultado_idade} </Text>
       <Text style={styles.texto2}> {resultado_sexo} </Text>
