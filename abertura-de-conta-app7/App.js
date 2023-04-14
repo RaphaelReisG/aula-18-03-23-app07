@@ -7,7 +7,7 @@ import Slider from '@react-native-community/slider';
 export default function App(){
   const [nome, setNome] = useState('')
   const [idade, setIdade] = useState('')
-  const [sexo, setSexo] = useState('')
+  const [sexo, setSexo] = useState('Masculino')
   const [sexos, setSexos] = useState([
         {id: 1, nome: 'Masculino'},
         {id: 2, nome: 'Feminino'},
@@ -23,13 +23,43 @@ export default function App(){
   const [limite, setLimite] = useState(0)
   const [brasileiro, setBrasileiro] = useState(false)
 
-  const [resultado, setResultado] = useState()
+  const [resultado, setResultado] = useState('')
+  const [resultado_nome, setResultado_nome] = useState('')
+  const [resultado_idade, setResultado_idade] = useState('')
+  const [resultado_sexo, setResultado_sexo] = useState('')
+  const [resultado_escolaridade, setResultado_escolaridade] = useState('')
+  const [resultado_limite, setResultado_limite] = useState('')
+  const [resultado_brasileiro, setResultado_brasileiro] = useState('')
 
   function cadastrar(){
-      setResultado((
-          "Cadastrado com sucesso: "
+      if( nome != '' &&
+          idade != '' &&
+          escolaridade != '' &&
+          escolaridade != 'Nada'
+      ){
+        setResultado(("Cadastrado com sucesso"))
+        setResultado_nome(("Nome:" + nome))
+        setResultado_idade(("Idade:" + idade))
+        setResultado_sexo(("Sexo:" + sexo))
+        setResultado_escolaridade(("Escolaridade:" + escolaridade))
+        setResultado_limite(("Limite:" + limite))
+        setResultado_brasileiro(((brasileiro) ? "Brasileiro" : "Gringo"))
 
-      ))
+        setSexo(('Masculino'))
+        setEscolaridade((''))
+        setLimite((0))
+        setBrasileiro((false))
+      }
+      else{
+        setResultado(("Campos em branco"))
+        setResultado_nome((''))
+        setResultado_idade((''))
+        setResultado_sexo((''))
+        setResultado_escolaridade((''))
+        setResultado_limite((''))
+        setResultado_brasileiro((''))
+      }
+      
   }
 
     let sexoItem = sexos.map( (valor, chave) => {
@@ -58,12 +88,17 @@ export default function App(){
       onChangeText={ (valor) => setIdade((valor)) }
       />
 
+      <Text style={styles.texto2}> Qual seu sexo? </Text>
+
       <Picker
         selectedValue={sexo}
         onValueChange={ (itemValue, itemIndex) => setSexo((itemValue)) }
       >
         {sexoItem}
       </Picker>
+      <br/>
+
+      <Text style={styles.texto2}> Qual sua escolaridade? </Text>
 
       <Picker
         selectedValue={escolaridade}
@@ -72,7 +107,9 @@ export default function App(){
         {escolaridadeItem}
       </Picker>
 
-      Defina seu limite:
+      <br/>
+
+      <Text style={styles.texto2}> Defina seu limite: </Text>
 
       <Slider
         minimumValue={0}
@@ -87,24 +124,30 @@ export default function App(){
 
       <Text style={styles.texto}> {limite} </Text>
 
-      Você é brasileiro?
+      <br/>
+
+      <Text style={styles.texto2}> Você é Brasileiro? </Text>
 
       <Switch 
         value={brasileiro}
         onValueChange={ (valorSwitch) =>  setBrasileiro((valorSwitch))}
       />
 
-      <Text style={{textAlign: 'center', fontSize:30}}>
-        {(brasileiro) ? "Brasileiro" : "Gringo"}
-      </Text>
+      <br/>
 
       <Button title="Cadastrar" onPress={cadastrar} />
 
-      
-
-
+      <br/>
 
       <Text style={styles.texto}> {resultado} </Text>
+
+      <br/>
+      <Text style={styles.texto2}> {resultado_nome} </Text>
+      <Text style={styles.texto2}> {resultado_idade} </Text>
+      <Text style={styles.texto2}> {resultado_sexo} </Text>
+      <Text style={styles.texto2}> {resultado_escolaridade} </Text>
+      <Text style={styles.texto2}> {resultado_limite} </Text>
+      <Text style={styles.texto2}> {resultado_brasileiro} </Text>
       </View>
     );
   
@@ -147,4 +190,3 @@ const styles = StyleSheet.create({
   }
 
 })
-
